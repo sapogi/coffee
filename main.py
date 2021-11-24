@@ -4,12 +4,14 @@ import sys
 from PyQt5 import uic
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
 from PyQt5.QtWidgets import QWidget, QApplication, QMainWindow
+from mainwindow import Ui_MainWindow
+from addEditCoffeeForm import Ui_Form
 
 
-class addEditCoffeeForm(QWidget):
+class addEditCoffeeForm(QWidget, Ui_Form):
     def __init__(self, *args):
         super().__init__()
-        uic.loadUi('addEditCoffeeForm.ui', self)
+        self.setupUi(self)
         self.initUI()
 
     def initUI(self):
@@ -27,7 +29,7 @@ class addEditCoffeeForm(QWidget):
             price = self.lineEdit_6.text()
             size = int(self.lineEdit_7.text())
             print(sort, roast, form, taste, price, size, id)
-            con = sqlite3.connect('coffee.sqlite')
+            con = sqlite3.connect('data/coffee.sqlite')
             cur = con.cursor()
 
             res = cur.execute("""UPDATE coffee
@@ -42,7 +44,7 @@ class addEditCoffeeForm(QWidget):
             taste = self.lineEdit_5.text()
             price = self.lineEdit_6.text()
             size = int(self.lineEdit_7.text())
-            con = sqlite3.connect('coffee.sqlite')
+            con = sqlite3.connect('data/coffee.sqlite')
             cur = con.cursor()
             res = cur.execute("""INSERT INTO coffee(sort, roast, form, taste, price, size) 
                                  VALUES(?, ?, ?, ?, ?, ?)""", (sort, roast, form, taste, price, size)).fetchall()
@@ -53,16 +55,16 @@ class addEditCoffeeForm(QWidget):
         self.close()
 
 
-class Example(QMainWindow):
+class Example(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
-        uic.loadUi('main.ui', self)
+        self.setupUi(self)
         self.initUI()
 
     def initUI(self):
         self.pushButton.clicked.connect(self.run)
         self.pushButton_2.clicked.connect(self.initUI)
-        self.con = sqlite3.connect('coffee.sqlite')
+        self.con = sqlite3.connect('data/coffee.sqlite')
         self.cur = self.con.cursor()
         res = self.cur.execute("""SELECT coffee.id, sorts.name, roast.title, coffee.form, coffee.taste, coffee.price, size.size  FROM coffee
                                   LEFT JOIN sorts ON sorts.id = coffee.sort
