@@ -3,8 +3,7 @@ import sys
 
 from PyQt5 import uic
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
-from PyQt5.QtSql import QSqlDatabase, QSqlTableModel
-from PyQt5.QtWidgets import QWidget, QTableView, QApplication, QMainWindow
+from PyQt5.QtWidgets import QWidget QApplication, QMainWindow
 
 
 class addEditCoffeeForm(QWidget):
